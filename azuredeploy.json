@@ -11,7 +11,9 @@
         }
     },
     "functions": [],
-    "variables": {},
+    "variables": {
+        "eventGridSystemTopicName": "[concat('evgt-autotagger-', uniqueString(subscription().subscriptionId))]"
+    },
     "resources": [
         {
             "name": "[parameters('resourceGroupName')]",
@@ -40,6 +42,40 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                }
+            }
+        },
+        {
+            "name": "eventGridSystemTopic",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "resourceGroup": "[parameters('resourceGroupName')]",
+            "dependsOn": [
+                "eventgridfunctionapp"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "outer"
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "type": "Microsoft.EventGrid/systemTopics",
+                            "apiVersion": "2022-06-15",
+                            "name": "[variables('eventGridSystemTopicName')]",
+                            "location": "global",
+                            "properties": {
+                                "source": "[subscription().id]",
+                                "topicType": "Microsoft.Resources.Subscriptions"
+                            },
+                            "tags": {
+                                "Application": "AzureAutoTagger"
+                            }
+                        }
+                    ]
                 }
             }
         },
@@ -93,5 +129,17 @@
         }
     ],
     "outputs": {
+        "functionAppName": {
+            "type": "string",
+            "value": "[reference('eventgridfunctionapp').outputs.functionAppName.value]"
+        },
+        "eventGridSystemTopicName": {
+            "type": "string",
+            "value": "[variables('eventGridSystemTopicName')]"
+        },
+        "resourceGroupName": {
+            "type": "string",
+            "value": "[parameters('resourceGroupName')]"
+        }
     }
 }
