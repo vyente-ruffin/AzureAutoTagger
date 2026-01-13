@@ -29,6 +29,13 @@
             "metadata": {
                 "description": "The language worker runtime to load in the function app."
             }
+        },
+        "triggerFunctionName": {
+            "type": "string",
+            "defaultValue": "eventgridfunction",
+            "metadata": {
+                "description": "The name of the function that will be triggered by Event Grid."
+            }
         }
     },
     "variables": {
@@ -149,7 +156,7 @@
                 "destination": {
                     "endpointType": "AzureFunction",
                     "properties": {
-                        "resourceId": "[concat(resourceId('Microsoft.Web/sites', parameters('functionAppName')), '/functions/eventgridfunction')]",
+                        "resourceId": "[concat(resourceId('Microsoft.Web/sites', parameters('functionAppName')), '/functions/', parameters('triggerFunctionName'))]",
                         "maxEventsPerBatch": 1,
                         "preferredBatchSizeInKilobytes": 64
                     }
