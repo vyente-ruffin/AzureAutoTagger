@@ -11,7 +11,9 @@
         }
     },
     "functions": [],
-    "variables": {},
+    "variables": {
+        "eventGridSystemTopicName": "[concat('evgt-autotagger-', uniqueString(subscription().subscriptionId))]"
+    },
     "resources": [
         {
             "name": "[parameters('resourceGroupName')]",
@@ -40,6 +42,64 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                }
+            }
+        },
+        {
+            "name": "eventGridSystemTopic",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2020-06-01",
+            "resourceGroup": "[parameters('resourceGroupName')]",
+            "dependsOn": [
+                "eventgridfunctionapp"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "expressionEvaluationOptions": {
+                    "scope": "outer"
+                },
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "resources": [
+                        {
+                            "type": "Microsoft.EventGrid/systemTopics",
+                            "apiVersion": "2022-06-15",
+                            "name": "[variables('eventGridSystemTopicName')]",
+                            "location": "global",
+                            "properties": {
+                                "source": "[subscription().id]",
+                                "topicType": "Microsoft.Resources.Subscriptions"
+                            },
+                            "tags": {
+                                "Application": "AzureAutoTagger"
+                            }
+                        },
+                        {
+                            "type": "Microsoft.EventGrid/systemTopics/eventSubscriptions",
+                            "apiVersion": "2022-06-15",
+                            "name": "[concat(variables('eventGridSystemTopicName'), '/AutoTaggerSubscription')]",
+                            "dependsOn": [
+                                "[resourceId('Microsoft.EventGrid/systemTopics', variables('eventGridSystemTopicName'))]"
+                            ],
+                            "properties": {
+                                "destination": {
+                                    "endpointType": "AzureFunction",
+                                    "properties": {
+                                        "resourceId": "[concat(resourceId(parameters('resourceGroupName'), 'Microsoft.Web/sites', reference('eventgridfunctionapp').outputs.functionAppName.value), '/functions/AutoTagger')]",
+                                        "maxEventsPerBatch": 1,
+                                        "preferredBatchSizeInKilobytes": 64
+                                    }
+                                },
+                                "filter": {
+                                    "includedEventTypes": [
+                                        "Microsoft.Resources.ResourceWriteSuccess"
+                                    ]
+                                },
+                                "eventDeliverySchema": "EventGridSchema"
+                            }
+                        }
+                    ]
                 }
             }
         },
