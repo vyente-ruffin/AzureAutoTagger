@@ -93,9 +93,5 @@
         }
     ],
     "outputs": {
-        // "functionAppIdentityId": {
-        //     "type": "string",
-        //     "value": "[reference('eventgridfunctionapp').outputs.functionAppIdentityId.value]"
-        // }
     }
 }
