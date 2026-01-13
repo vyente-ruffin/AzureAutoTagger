@@ -1,6 +1,6 @@
 # AzureAutoTagger
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdavid-ruffin%2FAzureAutoTagger%2Fmain%2Fazuredeploy.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fvyente-ruffin%2FAzureAutoTagger%2Fmain%2Fazuredeploy.json)
 
 Azure AutoTagger is a lightweight, low-cost serverless solution that can easily be deployed to an Azure subscription. Once deployed Azure AutoTagger monitors for `ResourceWriteSucess` events within the subscription and triggers an Azure Function to automatically apply a `LastModifiedTimestamp` and `LastModifiedBy` tag.
 
@@ -8,9 +8,9 @@ Azure AutoTagger is a lightweight, low-cost serverless solution that can easily 
 
 * [**https://cloudlumberjack.com/posts/azureautotagger/**](https://cloudlumberjack.com/posts/azureautotagger/): More details in a blog post describing the solution.
 
-* [**https://github.com/david-ruffin/AzureAutoTagger**](https://github.com/david-ruffin/AzureAutoTagger): Contains the ARM template code to deploy the infrastructure and role assignments to the subscription
+* [**https://github.com/vyente-ruffin/AzureAutoTagger**](https://github.com/vyente-ruffin/AzureAutoTagger): Contains the ARM template code to deploy the infrastructure and role assignments to the subscription
 
-* [**https://github.com/david-ruffin/AzureAutoTaggerFunction**](https://github.com/david-ruffin/AzureAutoTaggerFunction): Contains the Azure Function PowerShell code
+* [**https://github.com/vyente-ruffin/AzureAutoTaggerFunction**](https://github.com/vyente-ruffin/AzureAutoTaggerFunction): Contains the Azure Function PowerShell code
 
 ![tagging](/images/tagging-spedup.gif)
 
@@ -20,14 +20,14 @@ Azure AutoTagger is a lightweight, low-cost serverless solution that can easily 
 
 Use the **Deploy to Azure** button to easily deploy this solution in a subscription
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fdavid-ruffin%2FAzureAutoTagger%2Fmain%2Fazuredeploy.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fvyente-ruffin%2FAzureAutoTagger%2Fmain%2Fazuredeploy.json)
 
 -- OR --
 
 1. Clone the GitHub repo locally
 
 ```shell
-git clone https://github.com/david-ruffin/AzureAutoTagger.git
+git clone https://github.com/vyente-ruffin/AzureAutoTagger.git
 ```
 
 2. Initiate an ARM Template deployment with Azure PowerShell or Azure CLI
